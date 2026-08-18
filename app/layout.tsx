@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { getBaseUrl } from '@/lib/site-config';
 import './globals.css';
 
 const geistSans = Geist({
@@ -25,7 +26,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://speedometer.tools'),
+  metadataBase: new URL(getBaseUrl()),
   title: {
     default: 'Speedometer — Free Online GPS Speed Tracker & Tools',
     template: '%s | Speedometer',

@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { CONVERSION_PAIRS } from '@/lib/conversion-engine';
+import { getBaseUrl } from '@/lib/site-config';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://speedometer.tools';
+  const baseUrl = getBaseUrl();
   const now = new Date();
 
   const staticPages = [
