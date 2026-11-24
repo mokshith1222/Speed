@@ -1,4 +1,31 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import Speedometer from '@/components/Speedometer';
+import { getBaseUrl } from '@/lib/site-config';
+
+export const metadata: Metadata = {
+  title: 'Speedometer — Free Online GPS Speed Tracker & Velocity Tools',
+  description:
+    'Free online GPS speedometer and velocity suite. Measure your live speed in your browser, convert km/h, mph, knots, and m/s, and explore technical speed guides.',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Speedometer — Free Online GPS Speed Tracker & Velocity Tools',
+    description:
+      'Free online GPS speedometer and velocity suite. Measure your live speed in your browser, convert km/h, mph, knots, and m/s, and explore technical speed guides.',
+    url: '/',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Speedometer — Free Online GPS Speed Tracker & Velocity Tools',
+    description:
+      'Free online GPS speedometer and velocity suite. Measure your live speed in your browser, convert km/h, mph, knots, and m/s, and explore technical speed guides.',
+  },
+};
 
 const FEATURES = [
   {
@@ -69,9 +96,42 @@ const TOOLS = [
   { href: '/speed-converter/mps-to-kmh', label: 'm/s → km/h', description: 'Convert meters per second to kilometers per hour' },
 ];
 
+const GUIDES = [
+  { href: '/guides/how-gps-speed-works', title: 'How GPS Speed Works', description: 'Understand how satellites and Doppler frequency shift compute ground velocity.' },
+  { href: '/guides/gps-speed-vs-car-speedometer', title: 'GPS vs Car Speedometer', description: 'Why vehicle dashboards indicate higher than satellite ground speed under UN ECE Regulation 39.' },
+  { href: '/guides/kmh-vs-mph', title: 'km/h vs mph Explained', description: 'Global speed limits and quick mental conversion rules.' },
+  { href: '/guides/what-are-knots', title: 'What Are Knots?', description: 'The history and navigational mathematics behind nautical miles per hour.' },
+];
+
 export default function HomePage() {
+  const baseUrl = getBaseUrl();
+
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Speedometer',
+    url: baseUrl,
+    description:
+      'Free online GPS speedometer, velocity conversion suite, and educational guides.',
+  };
+
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Speedometer',
+    url: baseUrl,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
       {/* Hero Section */}
       <section
         className="relative overflow-hidden"
@@ -86,54 +146,145 @@ export default function HomePage() {
           }}
         />
 
-        <div className="container-main relative py-16 md:py-24 lg:py-32 text-center">
+        <div className="container-main relative py-12 md:py-20 lg:py-24 text-center">
           <p
             className="text-sm font-semibold uppercase tracking-widest mb-4"
             style={{ color: 'var(--brand-primary)' }}
           >
-            Free Online Tool
+            Online Velocity Suite
           </p>
           <h1
             id="hero-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-5"
             style={{ color: 'var(--text-primary)' }}
           >
-            GPS Speedometer
+            Online GPS Speedometer
             <br />
-            <span style={{ color: 'var(--brand-primary)' }}>& Speed Tools</span>
+            <span style={{ color: 'var(--brand-primary)' }}>&amp; Speed Tools Hub</span>
           </h1>
           <p
             className="text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed"
             style={{ color: 'var(--text-secondary)' }}
           >
-            Measure your real-time speed using GPS directly in your browser.
-            Convert between speed units, track trips, and explore speed guides — all free, no download required.
+            Measure your real-time speed using satellite GPS directly in your browser.
+            Convert between speed units, track trip statistics, and explore educational guides — all free with complete privacy.
           </p>
 
-          <div className="flex items-center justify-center gap-4 flex-wrap">
+          {/* Prominent Quick-Start Speedometer Card */}
+          <div
+            className="max-w-xl mx-auto mb-10 p-6 md:p-8 rounded-2xl border text-left"
+            style={{
+              backgroundColor: 'var(--bg-card)',
+              borderColor: 'var(--border-primary)',
+              boxShadow: 'var(--shadow-lg)',
+            }}
+          >
+            <div
+              className="flex items-center justify-between pb-4 mb-6 border-b"
+              style={{ borderColor: 'var(--border-primary)' }}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--brand-primary)' }} />
+                <span className="text-sm font-semibold tracking-wide uppercase" style={{ color: 'var(--text-primary)' }}>
+                  Quick Speedometer
+                </span>
+              </div>
+              <Link
+                href="/speedometer"
+                className="text-xs font-semibold no-underline hover:underline flex items-center gap-1.5 transition-colors"
+                style={{ color: 'var(--brand-primary)' }}
+                title="Open the dedicated full-screen speedometer tool"
+              >
+                Dedicated Full-Screen Tool →
+              </Link>
+            </div>
+
+            <Speedometer />
+          </div>
+
+          {/* Quick Hub Navigation */}
+          <div className="flex items-center justify-center gap-3 flex-wrap">
             <Link
               href="/speedometer"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base no-underline transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm no-underline transition-all"
               style={{
                 backgroundColor: 'var(--brand-primary)',
                 color: '#000',
-                boxShadow: '0 0 30px rgba(0,212,170,0.25)',
+                boxShadow: '0 0 25px rgba(0,212,170,0.2)',
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z" />
               </svg>
-              Start Speedometer
+              Full Speedometer Page
             </Link>
             <Link
               href="/speed-converter"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base no-underline transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm no-underline transition-colors"
               style={{
                 backgroundColor: 'var(--bg-tertiary)',
                 color: 'var(--text-primary)',
               }}
             >
-              Speed Converter
+              All Speed Converters
+            </Link>
+            <Link
+              href="/guides"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm no-underline transition-colors"
+              style={{
+                backgroundColor: 'var(--bg-tertiary)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Speed Guides
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Speed Converter Tools */}
+      <section className="py-16 md:py-24" style={{ backgroundColor: 'var(--bg-secondary)' }} aria-labelledby="tools-heading">
+        <div className="container-main">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--brand-primary)' }}>
+              Conversion Tools
+            </p>
+            <h2 id="tools-heading" className="text-3xl md:text-4xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+              Instant Speed Conversions
+            </h2>
+            <p className="text-sm max-w-xl mx-auto mt-2" style={{ color: 'var(--text-secondary)' }}>
+              Mathematically precise conversions across international metric, imperial, nautical, and SI velocity units.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            {TOOLS.map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="rounded-xl p-5 text-center transition-colors no-underline group"
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border-primary)',
+                }}
+              >
+                <div className="text-lg font-bold mb-1" style={{ color: 'var(--brand-primary)' }}>
+                  {tool.label}
+                </div>
+                <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
+                  {tool.description}
+                </p>
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Link
+              href="/speed-converter"
+              className="text-sm font-semibold underline"
+              style={{ color: 'var(--brand-primary)' }}
+            >
+              View All Speed Converters &amp; Formulas →
             </Link>
           </div>
         </div>
@@ -142,13 +293,12 @@ export default function HomePage() {
       {/* Features Grid */}
       <section
         className="py-16 md:py-24"
-        style={{ backgroundColor: 'var(--bg-secondary)' }}
         aria-labelledby="features-heading"
       >
         <div className="container-main">
           <div className="text-center mb-12">
             <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--brand-primary)' }}>
-              Features
+              Platform Features
             </p>
             <h2 id="features-heading" className="text-3xl md:text-4xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
               Everything You Need to Track Speed
@@ -183,35 +333,43 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Speed Converter Tools */}
-      <section className="py-16 md:py-24" aria-labelledby="tools-heading">
+      {/* Educational Guides Section */}
+      <section className="py-16 md:py-24" style={{ backgroundColor: 'var(--bg-secondary)' }} aria-labelledby="guides-heading">
         <div className="container-main">
           <div className="text-center mb-12">
             <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--brand-primary)' }}>
-              Conversion Tools
+              Learn &amp; Explore
             </p>
-            <h2 id="tools-heading" className="text-3xl md:text-4xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
-              Instant Speed Conversions
+            <h2 id="guides-heading" className="text-3xl md:text-4xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+              Speed &amp; GPS Guides
             </h2>
+            <p className="text-sm max-w-xl mx-auto mt-2" style={{ color: 'var(--text-secondary)' }}>
+              Original articles explaining satellite positioning, speedometer accuracy regulations, and unit history.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            {TOOLS.map((tool) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {GUIDES.map((guide) => (
               <Link
-                key={tool.href}
-                href={tool.href}
-                className="rounded-xl p-5 text-center transition-colors no-underline group"
+                key={guide.href}
+                href={guide.href}
+                className="rounded-xl p-5 transition-colors no-underline group flex flex-col justify-between"
                 style={{
                   backgroundColor: 'var(--bg-card)',
                   border: '1px solid var(--border-primary)',
                 }}
               >
-                <div className="text-lg font-bold mb-1" style={{ color: 'var(--brand-primary)' }}>
-                  {tool.label}
+                <div>
+                  <h3 className="text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                    {guide.title}
+                  </h3>
+                  <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    {guide.description}
+                  </p>
                 </div>
-                <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
-                  {tool.description}
-                </p>
+                <span className="text-xs font-semibold mt-4 inline-block" style={{ color: 'var(--brand-primary)' }}>
+                  Read Guide →
+                </span>
               </Link>
             ))}
           </div>
@@ -221,30 +379,41 @@ export default function HomePage() {
       {/* CTA Section */}
       <section
         className="py-16 md:py-24"
-        style={{ backgroundColor: 'var(--bg-secondary)' }}
         aria-labelledby="cta-heading"
       >
         <div className="container-main text-center">
           <h2 id="cta-heading" className="text-3xl md:text-4xl font-bold tracking-tight mb-4" style={{ color: 'var(--text-primary)' }}>
-            Ready to Check Your Speed?
+            Ready for the Full Speedometer Experience?
           </h2>
           <p className="text-lg mb-8 max-w-xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            Open the speedometer, allow GPS access, and see your speed instantly. Free, private, and works on any device.
+            Open the dedicated full-screen speedometer with HUD mode, analog dial, and local trip tracking.
           </p>
-          <Link
-            href="/speedometer"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg no-underline transition-all"
-            style={{
-              backgroundColor: 'var(--brand-primary)',
-              color: '#000',
-              boxShadow: '0 0 30px rgba(0,212,170,0.25)',
-            }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-            Start Speedometer
-          </Link>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <Link
+              href="/speedometer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg no-underline transition-all"
+              style={{
+                backgroundColor: 'var(--brand-primary)',
+                color: '#000',
+                boxShadow: '0 0 30px rgba(0,212,170,0.25)',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              Open Dedicated Speedometer
+            </Link>
+            <Link
+              href="/speed-converter"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg no-underline transition-colors"
+              style={{
+                backgroundColor: 'var(--bg-tertiary)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Browse Converters
+            </Link>
+          </div>
         </div>
       </section>
     </>

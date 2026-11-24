@@ -2,19 +2,81 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import SpeedConverterWidget from '@/components/SpeedConverterWidget';
 import { CONVERSION_PAIRS } from '@/lib/conversion-engine';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Speed Converter — Convert km/h, mph, knots, m/s',
+  title: 'Speed Converter — km/h, mph, Knots & m/s',
   description:
-    'Free online speed converter. Instantly convert between kilometers per hour (km/h), miles per hour (mph), knots, and meters per second (m/s). Accurate, fast, and easy to use.',
+    'Free online speed converter. Instantly convert between km/h, mph, knots, and m/s with verified formulas, conversion tables, and step-by-step calculations.',
   alternates: {
     canonical: '/speed-converter',
+  },
+  openGraph: {
+    title: 'Speed Converter — km/h, mph, Knots & m/s',
+    description:
+      'Free online speed converter. Instantly convert between km/h, mph, knots, and m/s with verified formulas, conversion tables, and step-by-step calculations.',
+    url: '/speed-converter',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Speed Converter — km/h, mph, Knots & m/s',
+    description:
+      'Convert between km/h, mph, knots, and m/s instantly with verified calculation formulas and tables.',
   },
 };
 
 export default function SpeedConverterPage() {
+  const baseUrl = getBaseUrl();
+
+  const webAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Speed Converter',
+    url: `${baseUrl}/speed-converter`,
+    description:
+      'Free online speed converter to convert between km/h, mph, knots, and m/s.',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Speed Converter',
+        item: `${baseUrl}/speed-converter`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="py-8 md:py-12" aria-labelledby="converter-heading">
         <div className="container-main">
           <div className="text-center mb-8">
@@ -29,7 +91,8 @@ export default function SpeedConverterPage() {
               Speed Converter
             </h1>
             <p className="text-base max-w-xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-              Convert between km/h, mph, knots, and m/s instantly. Select your units and enter a value.
+              Convert between kilometers per hour (km/h), miles per hour (mph), knots, and meters per second (m/s) instantly.
+              Select your units, enter a velocity, and view exact mathematical results.
             </p>
           </div>
 
@@ -58,7 +121,7 @@ export default function SpeedConverterPage() {
                   {pair.title}
                 </div>
                 <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
-                  Conversion table, formula, and calculator
+                  Conversion table, step-by-step formula, and calculator
                 </p>
               </Link>
             ))}
@@ -66,28 +129,147 @@ export default function SpeedConverterPage() {
         </div>
       </section>
 
-      {/* Explanation */}
+      {/* Comprehensive Educational & Mathematical Section */}
       <section className="py-12 md:py-16" aria-labelledby="about-converter">
         <div className="container-main max-w-3xl">
           <h2 id="about-converter" className="text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-            How Speed Conversion Works
+            The Mathematics of Speed Conversion
           </h2>
-          <div className="space-y-4 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+          <div className="space-y-6 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             <p>
-              Speed units measure how fast an object moves over a given time period. Different countries and industries use different
-              units: km/h is standard in most of the world, mph in the US and UK, knots in aviation and maritime, and m/s in science.
+              Speed is defined as the magnitude of velocity, representing distance traveled per unit of time (<code>v = &Delta;d / &Delta;t</code>).
+              Because historical standards evolved independently across civil transport, naval navigation, and experimental physics,
+              different systems developed unique unit definitions. Converting between these units requires applying exact mathematical ratios.
             </p>
-            <p>
-              Conversions use fixed mathematical ratios. For example, 1 km/h = 0.621371 mph, and 1 knot = 1.852 km/h.
-              All conversions on this page use these precise factors to ensure accuracy.
-            </p>
-            <p>
-              Need to measure your actual speed? Try our{' '}
-              <Link href="/speedometer" className="font-medium underline" style={{ color: 'var(--brand-primary)' }}>
-                GPS Speedometer
-              </Link>{' '}
-              — it works right in your browser using your device&apos;s GPS.
-            </p>
+
+            <div>
+              <h3 className="text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                Exact Conversion Factors (to SI Base Unit m/s)
+              </h3>
+              <p className="mb-3">
+                All conversions on this platform use meters per second (m/s) as the precision intermediate base unit to prevent cumulative rounding drift:
+              </p>
+              <div className="rounded-xl overflow-hidden border" style={{ borderColor: 'var(--border-primary)' }}>
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                      <th className="px-4 py-2.5 text-left font-semibold" style={{ color: 'var(--text-primary)' }}>Unit</th>
+                      <th className="px-4 py-2.5 text-left font-semibold" style={{ color: 'var(--text-primary)' }}>Factor to m/s</th>
+                      <th className="px-4 py-2.5 text-left font-semibold" style={{ color: 'var(--text-primary)' }}>Factor to km/h</th>
+                      <th className="px-4 py-2.5 text-left font-semibold" style={{ color: 'var(--text-primary)' }}>Factor to mph</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['1 km/h', '1 / 3.6 (0.277778 m/s)', '1.000000 km/h', '0.621371 mph'],
+                      ['1 mph', '0.447040 m/s', '1.609344 km/h', '1.000000 mph'],
+                      ['1 knot', '1.852 / 3.6 (0.514444... m/s)', '1.852000 km/h', '1.150779 mph'],
+                      ['1 m/s', '1.000000 m/s', '3.600000 km/h', '2.236936 mph'],
+                    ].map(([unit, ms, kmh, mph], i) => (
+                      <tr
+                        key={unit}
+                        style={{
+                          borderTop: '1px solid var(--border-primary)',
+                          backgroundColor: i % 2 === 0 ? 'var(--bg-card)' : 'var(--bg-secondary)',
+                        }}
+                      >
+                        <td className="px-4 py-2 font-medium" style={{ color: 'var(--text-primary)' }}>{unit}</td>
+                        <td className="px-4 py-2 font-mono">{ms}</td>
+                        <td className="px-4 py-2 font-mono">{kmh}</td>
+                        <td className="px-4 py-2 font-mono">{mph}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                Why Precision Matters: The Knots Benchmark
+              </h3>
+              <p>
+                In maritime navigation and aviation, truncating conversion factors leads to cumulative navigational errors over long journeys.
+                By international convention, 1 international nautical mile equals exactly 1,852 meters. Therefore, 1 knot equals exactly 1.852 km/h.
+                For example, converting 500 knots to km/h yields exactly <code>500 &times; 1.852 = 926.0 km/h</code>.
+                Our conversion engine uses exact fraction representations to maintain zero-drift floating point accuracy across calculations and tables.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                Need Live Speed Tracking?
+              </h3>
+              <p>
+                If you are on the road, cycling, or on a boat and want to measure your actual velocity right now, try our{' '}
+                <Link href="/speedometer" className="font-medium underline" style={{ color: 'var(--brand-primary)' }}>
+                  GPS Speedometer
+                </Link>
+                . It computes your true ground velocity directly in your browser using satellite GNSS Doppler signals, with zero coordinate transmission to servers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Educational Guides & Unit Standards */}
+      <section className="py-12 md:py-16" style={{ backgroundColor: 'var(--bg-secondary)' }} aria-labelledby="guides-heading">
+        <div className="container-main max-w-3xl">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 id="guides-heading" className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                Speed Unit Guides &amp; Educational Resources
+              </h2>
+              <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                Original guides explaining speed unit histories, global standards, and conversion mathematics.
+              </p>
+            </div>
+            <Link
+              href="/guides"
+              className="text-xs font-semibold no-underline hover:underline shrink-0"
+              style={{ color: 'var(--brand-primary)' }}
+            >
+              All Guides →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Link
+              href="/guides/speed-units-explained"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                Speed Units Explained →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Origins, formulas, and domain usage for km/h, mph, knots, and m/s.
+              </p>
+            </Link>
+            <Link
+              href="/guides/kmh-vs-mph"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                km/h vs. mph Guide →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Global road adoption, mental conversion tricks, and speed limit comparisons.
+              </p>
+            </Link>
+            <Link
+              href="/guides/what-are-knots"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                What Are Knots? →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Nautical mile history, navigation charts, and aviation airspeed.
+              </p>
+            </Link>
           </div>
         </div>
       </section>

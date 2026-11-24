@@ -10,6 +10,7 @@ import {
   generateConversionTable,
   getCommonValues,
 } from '@/lib/conversion-engine';
+import { getBaseUrl } from '@/lib/site-config';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -32,13 +33,141 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const fromLabel = UNITS[pair.from].label;
   const toLabel = UNITS[pair.to].label;
+  const fromFullName = UNITS[pair.from].fullName;
+  const toFullName = UNITS[pair.to].fullName;
+
+  const title = `${pair.title} Converter — ${fromLabel} to ${toLabel}`;
+  const description = `Convert ${fromFullName} to ${toFullName} (${fromLabel} to ${toLabel}). Free online calculator with verified conversion formulas and reference table.`;
 
   return {
-    title: `${pair.title} Converter — Convert ${fromLabel} to ${toLabel}`,
-    description: `Convert ${UNITS[pair.from].fullName} to ${UNITS[pair.to].fullName}. Free online ${fromLabel} to ${toLabel} calculator with conversion table and formula.`,
+    title,
+    description,
     alternates: {
       canonical: `/speed-converter/${slug}`,
     },
+    openGraph: {
+      title,
+      description,
+      url: `/speed-converter/${slug}`,
+      siteName: 'Speedometer',
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
+}
+
+function getPairDetails(from: ConversionUnit, to: ConversionUnit, slug: string) {
+  if (slug === 'kmh-to-mph') {
+    return {
+      workedExample: {
+        input: 100,
+        result: '62.14',
+        explanation: 'Multiply kilometers per hour by 0.621371 (or divide by 1.609344). For example: 100 km/h × 0.621371 = 62.14 mph.',
+      },
+      practicalContext:
+        'Crucial for drivers crossing from metric regions (such as Canada, Mexico, or Continental Europe) into the United States or the United Kingdom. It helps motorists adhere to posted imperial highway speed limits without mental math errors.',
+      relatedGuide: {
+        href: '/guides/kmh-vs-mph',
+        title: 'km/h vs. mph Guide',
+        description: 'Learn about global adoption differences, posted highway limits, and the Fibonacci mental math trick.',
+      },
+      benchmarks: [
+        { label: 'City residential limit (30 km/h)', value: '18.6 mph (posted as 20 mph)' },
+        { label: 'Urban street limit (50 km/h)', value: '31.1 mph (posted as 30 mph)' },
+        { label: 'Secondary highway (80 km/h)', value: '49.7 mph (posted as 50 mph)' },
+        { label: 'Expressway cruising (100 km/h)', value: '62.1 mph (posted as 60–65 mph)' },
+        { label: 'Motorway speed (120 km/h)', value: '74.6 mph (posted as 70–75 mph)' },
+      ],
+    };
+  }
+  if (slug === 'mph-to-kmh') {
+    return {
+      workedExample: {
+        input: 60,
+        result: '96.56',
+        explanation: 'Multiply miles per hour by exactly 1.609344. For example: 60 mph × 1.609344 = 96.56 km/h.',
+      },
+      practicalContext:
+        'Essential for American and British drivers touring overseas, as well as imported car owners whose analog speedometer dials feature primary imperial markings.',
+      relatedGuide: {
+        href: '/guides/kmh-vs-mph',
+        title: 'km/h vs. mph Guide',
+        description: 'Explore the history of metric conversion, international road rules, and fast mental conversion shortcuts.',
+      },
+      benchmarks: [
+        { label: 'School / residential zone (20 mph)', value: '32.2 km/h (posted as 30 km/h)' },
+        { label: 'City street limit (30 mph)', value: '48.3 km/h (posted as 50 km/h)' },
+        { label: 'Open two-lane road (55 mph)', value: '88.5 km/h (posted as 80–90 km/h)' },
+        { label: 'Interstate highway (65 mph)', value: '104.6 km/h (posted as 100–110 km/h)' },
+        { label: 'Interstate maximum (75 mph)', value: '120.7 km/h (posted as 120 km/h)' },
+      ],
+    };
+  }
+  if (slug === 'knots-to-kmh') {
+    return {
+      workedExample: {
+        input: 35,
+        result: '64.82',
+        explanation: 'Multiply knots by exactly 1.852 (the international standard kilometer length of one nautical mile). For example: 35 knots × 1.852 = 64.82 km/h.',
+      },
+      practicalContext:
+        'Used by mariners, coast guards, ferry passengers, and pilots to translate nautical chart velocities and marine weather advisories into metric road speed equivalents.',
+      relatedGuide: {
+        href: '/guides/what-are-knots',
+        title: 'What Are Knots? Nautical Speed Explained',
+        description: 'Discover why maritime vessels and aircraft measure velocity in knots linked to Earth latitude minutes.',
+      },
+      benchmarks: [
+        { label: 'Harbor no-wake speed (5 knots)', value: '9.26 km/h' },
+        { label: 'Coastal sailing cruise (8 knots)', value: '14.82 km/h' },
+        { label: 'Cargo container ship (20 knots)', value: '37.04 km/h' },
+        { label: 'High-speed passenger ferry (35 knots)', value: '64.82 km/h' },
+        { label: 'Aviation approach speed (140 knots)', value: '259.28 km/h' },
+      ],
+    };
+  }
+  if (slug === 'mps-to-kmh') {
+    return {
+      workedExample: {
+        input: 15,
+        result: '54.00',
+        explanation: 'Multiply meters per second by 3.6 (1,000 meters / 3,600 seconds). For example: 15 m/s × 3.6 = 54.0 km/h.',
+      },
+      practicalContext:
+        'Commonly needed when interpreting scientific weather stations, wind anemometer reports (where gale warnings are given in m/s), athletic sprint telemetry, and physics experiments.',
+      relatedGuide: {
+        href: '/guides/speed-units-explained',
+        title: 'Speed Units Explained: km/h, mph, m/s & Knots',
+        description: 'Comprehensive guide covering SI base velocity units, fluid dynamics, and meteorology wind scales.',
+      },
+      benchmarks: [
+        { label: 'Gentle breeze (3 m/s)', value: '10.8 km/h' },
+        { label: 'Strong breeze / kite flying (10 m/s)', value: '36.0 km/h' },
+        { label: 'Gale force wind (17 m/s)', value: '61.2 km/h' },
+        { label: 'Storm force wind (25 m/s)', value: '90.0 km/h' },
+        { label: 'Hurricane threshold (33 m/s)', value: '118.8 km/h' },
+      ],
+    };
+  }
+  const factor = UNITS[from].toBase / UNITS[to].toBase;
+  return {
+    workedExample: {
+      input: 10,
+      result: (10 * factor).toFixed(2),
+      explanation: `Multiply ${UNITS[from].label} by ${factor.toFixed(6)}. For example: 10 ${UNITS[from].label} × ${factor.toFixed(4)} = ${(10 * factor).toFixed(2)} ${UNITS[to].label}.`,
+    },
+    practicalContext: `Converts velocity from ${UNITS[from].fullName} to ${UNITS[to].fullName} using exact international standard conversion ratios.`,
+    relatedGuide: {
+      href: '/guides/speed-units-explained',
+      title: 'Speed Units Explained',
+      description: 'Learn about speed formulas, physical dimensions, and conversion mathematics.',
+    },
+    benchmarks: [],
   };
 }
 
@@ -47,17 +176,68 @@ export default async function ConversionPage({ params }: PageProps) {
   const pair = getPairBySlug(slug);
   if (!pair) notFound();
 
+  const baseUrl = getBaseUrl();
   const fromUnit = UNITS[pair.from];
   const toUnit = UNITS[pair.to];
   const formula = getFormula(pair.from, pair.to);
   const commonValues = getCommonValues(pair.from, pair.to);
   const table = generateConversionTable(pair.from, pair.to, commonValues);
+  const details = getPairDetails(pair.from, pair.to, slug);
 
   // Other conversion pairs for internal linking
   const otherPairs = CONVERSION_PAIRS.filter((p) => p.slug !== slug);
 
+  const webAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: `${pair.title} Converter`,
+    url: `${baseUrl}/speed-converter/${slug}`,
+    description: `Convert ${fromUnit.fullName} (${fromUnit.label}) to ${toUnit.fullName} (${toUnit.label}) with exact formulas.`,
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Speed Converter',
+        item: `${baseUrl}/speed-converter`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: pair.title,
+        item: `${baseUrl}/speed-converter/${slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="py-8 md:py-12" aria-labelledby="converter-heading">
         <div className="container-main">
           {/* Breadcrumb */}
@@ -79,7 +259,7 @@ export default async function ConversionPage({ params }: PageProps) {
             </h1>
             <p className="text-base max-w-xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
               Convert {fromUnit.fullName} ({fromUnit.label}) to {toUnit.fullName} ({toUnit.label}).
-              Enter a value and get instant, accurate results.
+              Enter a value and get instant, accurate results with our verified calculation engine.
             </p>
           </div>
 
@@ -141,8 +321,107 @@ export default async function ConversionPage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* Step-by-Step Calculation Guide */}
+      <section className="py-12 md:py-16" aria-labelledby="how-to-calculate">
+        <div className="container-main max-w-3xl">
+          <h2 id="how-to-calculate" className="text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+            How to Convert {fromUnit.label} to {toUnit.label} Step-by-Step
+          </h2>
+          <div className="space-y-4 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            <p>
+              To manually convert from {fromUnit.fullName} ({fromUnit.label}) to {toUnit.fullName} ({toUnit.label}), apply the formula:
+            </p>
+            <div
+              className="p-4 rounded-xl border text-center font-mono text-sm"
+              style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-primary)', color: 'var(--text-primary)' }}
+            >
+              {formula}
+            </div>
+
+            <div
+              className="p-5 rounded-xl border"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-base mb-2" style={{ color: 'var(--text-primary)' }}>
+                Worked Calculation Example ({details.workedExample.input} {fromUnit.label})
+              </h3>
+              <p className="mb-2">
+                {details.workedExample.explanation}
+              </p>
+              <p className="font-mono text-xs" style={{ color: 'var(--brand-primary)' }}>
+                Result: {details.workedExample.input} {fromUnit.label} = {details.workedExample.result} {toUnit.label}
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-base mb-2" style={{ color: 'var(--text-primary)' }}>
+                Practical Context &amp; Real-World Use
+              </h3>
+              <p className="mb-3">
+                {details.practicalContext}
+              </p>
+            </div>
+
+            {details.relatedGuide && (
+              <div
+                className="p-4 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4"
+                style={{ backgroundColor: 'rgba(0,212,170,0.06)', borderColor: 'rgba(0,212,170,0.2)' }}
+              >
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--brand-primary)' }}>
+                    Educational Guide
+                  </p>
+                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                    {details.relatedGuide.description}
+                  </p>
+                </div>
+                <Link
+                  href={details.relatedGuide.href}
+                  className="px-4 py-2 rounded-lg text-xs font-semibold no-underline shrink-0 transition-colors"
+                  style={{ backgroundColor: 'var(--brand-primary)', color: '#000' }}
+                >
+                  {details.relatedGuide.title} →
+                </Link>
+              </div>
+            )}
+
+            {details.benchmarks.length > 0 && (
+              <div>
+                <h3 className="font-semibold text-base mb-3" style={{ color: 'var(--text-primary)' }}>
+                  Common Everyday Benchmarks
+                </h3>
+                <div className="rounded-xl overflow-hidden border" style={{ borderColor: 'var(--border-primary)' }}>
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                        <th className="px-4 py-2.5 text-left font-semibold" style={{ color: 'var(--text-primary)' }}>Context / Zone</th>
+                        <th className="px-4 py-2.5 text-right font-semibold" style={{ color: 'var(--text-primary)' }}>Equivalent Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {details.benchmarks.map((bm, i) => (
+                        <tr
+                          key={bm.label}
+                          style={{
+                            borderTop: '1px solid var(--border-primary)',
+                            backgroundColor: i % 2 === 0 ? 'var(--bg-card)' : 'var(--bg-secondary)',
+                          }}
+                        >
+                          <td className="px-4 py-2 font-medium" style={{ color: 'var(--text-primary)' }}>{bm.label}</td>
+                          <td className="px-4 py-2 text-right font-mono" style={{ color: 'var(--brand-primary)' }}>{bm.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* Unit Explanations */}
-      <section className="py-12 md:py-16" aria-labelledby="units-heading">
+      <section className="py-12 md:py-16" style={{ backgroundColor: 'var(--bg-secondary)' }} aria-labelledby="units-heading">
         <div className="container-main max-w-3xl">
           <h2 id="units-heading" className="text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             Understanding {fromUnit.label} and {toUnit.label}

@@ -36,7 +36,7 @@ export const UNITS: Record<ConversionUnit, UnitInfo> = {
     label: 'knots',
     fullName: 'Knots (Nautical Miles per Hour)',
     description: 'The standard speed unit in maritime and aviation. One knot equals one nautical mile (1.852 km) per hour.',
-    toBase: 0.514444,
+    toBase: 1.852 / 3.6,
   },
   ms: {
     id: 'ms',
@@ -101,7 +101,7 @@ export function getCommonValues(from: ConversionUnit, to: ConversionUnit): numbe
 export function getFormula(from: ConversionUnit, to: ConversionUnit): string {
   const formulas: Record<string, string> = {
     'kmh-mph': 'mph = km/h × 0.621371',
-    'mph-kmh': 'km/h = mph × 1.60934',
+    'mph-kmh': 'km/h = mph × 1.609344',
     'knots-kmh': 'km/h = knots × 1.852',
     'kmh-knots': 'knots = km/h × 0.539957',
     'ms-kmh': 'km/h = m/s × 3.6',

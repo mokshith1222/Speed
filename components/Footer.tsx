@@ -5,24 +5,31 @@ const FOOTER_SECTIONS = [
     title: 'Tools',
     links: [
       { href: '/speedometer', label: 'GPS Speedometer' },
-      { href: '/speed-converter', label: 'Speed Converter' },
+      { href: '/speed-converter', label: 'Speed Converter Hub' },
       { href: '/speed-converter/kmh-to-mph', label: 'km/h to mph' },
       { href: '/speed-converter/mph-to-kmh', label: 'mph to km/h' },
+      { href: '/speed-converter/knots-to-kmh', label: 'Knots to km/h' },
+      { href: '/speed-converter/mps-to-kmh', label: 'm/s to km/h' },
     ],
   },
   {
     title: 'Guides',
     links: [
+      { href: '/guides', label: 'All Speed Guides' },
       { href: '/guides/how-gps-speed-works', label: 'How GPS Speed Works' },
       { href: '/guides/gps-speed-vs-car-speedometer', label: 'GPS vs Car Speedometer' },
       { href: '/guides/how-accurate-is-gps-speed', label: 'GPS Speed Accuracy' },
       { href: '/guides/phone-as-speedometer', label: 'Phone as Speedometer' },
+      { href: '/guides/kmh-vs-mph', label: 'km/h vs mph' },
+      { href: '/guides/what-are-knots', label: 'What Are Knots?' },
+      { href: '/guides/speed-units-explained', label: 'Speed Units Explained' },
+      { href: '/guides/speedometer-accuracy', label: 'Speedometer Accuracy' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { href: '/about', label: 'About' },
+      { href: '/about', label: 'About Speedometer' },
       { href: '/contact', label: 'Contact' },
       { href: '/faq', label: 'FAQ' },
     ],
