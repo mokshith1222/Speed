@@ -141,8 +141,8 @@ export default function SpeedometerPage() {
                 Unlike mechanical and digital vehicle speedometers that calculate speed from wheel axle rotations, this GPS speedometer
                 measures your true velocity across the Earth&apos;s surface. Modern device GPS chipsets compute velocity primarily by
                 analyzing the <strong>Doppler frequency shift</strong> of incoming radio signals from orbiting GNSS satellites (GPS, Galileo,
-                GLONASS). Smartphone GPS speed accuracy can vary with device hardware, satellite visibility, signal conditions, and movement.
-                Under favourable open-sky conditions, errors may often be around &plusmn;0.5 to &plusmn;1.5 km/h, but actual accuracy varies.
+                GLONASS). While Doppler-derived velocity provides a responsive speed estimate, GPS speed accuracy is not a single fixed figure
+                and varies based on device hardware, satellite visibility, signal conditions, and movement.
               </p>
             </div>
 
