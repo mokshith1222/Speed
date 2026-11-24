@@ -52,6 +52,11 @@ function getPairDetails(from: ConversionUnit, to: ConversionUnit, slug: string) 
       },
       practicalContext:
         'Crucial for drivers crossing from metric regions (such as Canada, Mexico, or Continental Europe) into the United States or the United Kingdom. It helps motorists adhere to posted imperial highway speed limits without mental math errors.',
+      relatedGuide: {
+        href: '/guides/kmh-vs-mph',
+        title: 'km/h vs. mph Guide',
+        description: 'Learn about global adoption differences, posted highway limits, and the Fibonacci mental math trick.',
+      },
       benchmarks: [
         { label: 'City residential limit (30 km/h)', value: '18.6 mph (posted as 20 mph)' },
         { label: 'Urban street limit (50 km/h)', value: '31.1 mph (posted as 30 mph)' },
@@ -70,6 +75,11 @@ function getPairDetails(from: ConversionUnit, to: ConversionUnit, slug: string) 
       },
       practicalContext:
         'Essential for American and British drivers touring overseas, as well as imported car owners whose analog speedometer dials feature primary imperial markings.',
+      relatedGuide: {
+        href: '/guides/kmh-vs-mph',
+        title: 'km/h vs. mph Guide',
+        description: 'Explore the history of metric conversion, international road rules, and fast mental conversion shortcuts.',
+      },
       benchmarks: [
         { label: 'School / residential zone (20 mph)', value: '32.2 km/h (posted as 30 km/h)' },
         { label: 'City street limit (30 mph)', value: '48.3 km/h (posted as 50 km/h)' },
@@ -88,6 +98,11 @@ function getPairDetails(from: ConversionUnit, to: ConversionUnit, slug: string) 
       },
       practicalContext:
         'Used by mariners, coast guards, ferry passengers, and pilots to translate nautical chart velocities and marine weather advisories into metric road speed equivalents.',
+      relatedGuide: {
+        href: '/guides/what-are-knots',
+        title: 'What Are Knots? Nautical Speed Explained',
+        description: 'Discover why maritime vessels and aircraft measure velocity in knots linked to Earth latitude minutes.',
+      },
       benchmarks: [
         { label: 'Harbor no-wake speed (5 knots)', value: '9.26 km/h' },
         { label: 'Coastal sailing cruise (8 knots)', value: '14.82 km/h' },
@@ -106,6 +121,11 @@ function getPairDetails(from: ConversionUnit, to: ConversionUnit, slug: string) 
       },
       practicalContext:
         'Commonly needed when interpreting scientific weather stations, wind anemometer reports (where gale warnings are given in m/s), athletic sprint telemetry, and physics experiments.',
+      relatedGuide: {
+        href: '/guides/speed-units-explained',
+        title: 'Speed Units Explained: km/h, mph, m/s & Knots',
+        description: 'Comprehensive guide covering SI base velocity units, fluid dynamics, and meteorology wind scales.',
+      },
       benchmarks: [
         { label: 'Gentle breeze (3 m/s)', value: '10.8 km/h' },
         { label: 'Strong breeze / kite flying (10 m/s)', value: '36.0 km/h' },
@@ -123,6 +143,11 @@ function getPairDetails(from: ConversionUnit, to: ConversionUnit, slug: string) 
       explanation: `Multiply ${UNITS[from].label} by ${factor.toFixed(6)}. For example: 10 ${UNITS[from].label} × ${factor.toFixed(4)} = ${(10 * factor).toFixed(2)} ${UNITS[to].label}.`,
     },
     practicalContext: `Converts velocity from ${UNITS[from].fullName} to ${UNITS[to].fullName} using exact international standard conversion ratios.`,
+    relatedGuide: {
+      href: '/guides/speed-units-explained',
+      title: 'Speed Units Explained',
+      description: 'Learn about speed formulas, physical dimensions, and conversion mathematics.',
+    },
     benchmarks: [],
   };
 }
@@ -267,6 +292,29 @@ export default async function ConversionPage({ params }: PageProps) {
                 {details.practicalContext}
               </p>
             </div>
+
+            {details.relatedGuide && (
+              <div
+                className="p-4 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4"
+                style={{ backgroundColor: 'rgba(0,212,170,0.06)', borderColor: 'rgba(0,212,170,0.2)' }}
+              >
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--brand-primary)' }}>
+                    Educational Guide
+                  </p>
+                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                    {details.relatedGuide.description}
+                  </p>
+                </div>
+                <Link
+                  href={details.relatedGuide.href}
+                  className="px-4 py-2 rounded-lg text-xs font-semibold no-underline shrink-0 transition-colors"
+                  style={{ backgroundColor: 'var(--brand-primary)', color: '#000' }}
+                >
+                  {details.relatedGuide.title} →
+                </Link>
+              </div>
+            )}
 
             {details.benchmarks.length > 0 && (
               <div>

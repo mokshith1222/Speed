@@ -149,6 +149,68 @@ export default function SpeedConverterPage() {
           </div>
         </div>
       </section>
+
+      {/* Educational Guides & Unit Standards */}
+      <section className="py-12 md:py-16" style={{ backgroundColor: 'var(--bg-secondary)' }} aria-labelledby="guides-heading">
+        <div className="container-main max-w-3xl">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 id="guides-heading" className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                Speed Unit Guides &amp; Educational Resources
+              </h2>
+              <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                Original guides explaining speed unit histories, global standards, and conversion mathematics.
+              </p>
+            </div>
+            <Link
+              href="/guides"
+              className="text-xs font-semibold no-underline hover:underline shrink-0"
+              style={{ color: 'var(--brand-primary)' }}
+            >
+              All Guides →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Link
+              href="/guides/speed-units-explained"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                Speed Units Explained →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Origins, formulas, and domain usage for km/h, mph, knots, and m/s.
+              </p>
+            </Link>
+            <Link
+              href="/guides/kmh-vs-mph"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                km/h vs. mph Guide →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Global road adoption, mental conversion tricks, and speed limit comparisons.
+              </p>
+            </Link>
+            <Link
+              href="/guides/what-are-knots"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                What Are Knots? →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Nautical mile history, navigation charts, and aviation airspeed.
+              </p>
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

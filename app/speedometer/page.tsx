@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Speedometer from '@/components/Speedometer';
 import { getBaseUrl } from '@/lib/site-config';
 
@@ -251,6 +252,101 @@ export default function SpeedometerPage() {
                 </div>
               </details>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Related Guides & Tools */}
+      <section className="py-12 md:py-16" style={{ backgroundColor: 'var(--bg-secondary)' }} aria-labelledby="related-heading">
+        <div className="container-main max-w-3xl">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 id="related-heading" className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                Learn More About GPS Speed &amp; Tools
+              </h2>
+              <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                Technical guides explaining satellite velocity, accuracy factors, and unit conversion.
+              </p>
+            </div>
+            <Link
+              href="/guides"
+              className="text-xs font-semibold no-underline hover:underline shrink-0"
+              style={{ color: 'var(--brand-primary)' }}
+            >
+              All Guides →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link
+              href="/guides/how-gps-speed-works"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                How GPS Speed Works →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Understand Doppler frequency shift and how satellites compute velocity.
+              </p>
+            </Link>
+            <Link
+              href="/guides/gps-speed-vs-car-speedometer"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                GPS vs. Car Speedometer →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Why vehicle dashboards indicate slightly higher than satellite ground speed.
+              </p>
+            </Link>
+            <Link
+              href="/guides/how-accurate-is-gps-speed"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                GPS Speed Accuracy Factors →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                How satellite geometry, atmospheric refraction, and urban canyons impact readings.
+              </p>
+            </Link>
+            <Link
+              href="/guides/phone-as-speedometer"
+              className="p-4 rounded-xl border no-underline transition-colors block"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+            >
+              <h3 className="font-semibold text-sm mb-1" style={{ color: 'var(--brand-primary)' }}>
+                Phone as Speedometer Guide →
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Setup instructions, mounting tips, and the W3C Screen Wake Lock API.
+              </p>
+            </Link>
+          </div>
+
+          <div
+            className="mt-6 p-4 rounded-xl border flex flex-wrap items-center justify-between gap-3"
+            style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+          >
+            <div>
+              <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                Need to convert speed units?
+              </p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                Convert between km/h, mph, knots, and m/s with verified formulas and tables.
+              </p>
+            </div>
+            <Link
+              href="/speed-converter"
+              className="px-4 py-2 rounded-lg text-xs font-semibold no-underline transition-colors shrink-0"
+              style={{ backgroundColor: 'var(--brand-primary)', color: '#000' }}
+            >
+              Open Speed Converter →
+            </Link>
           </div>
         </div>
       </section>
