@@ -74,8 +74,8 @@ const EARTH_RADIUS = 6371000;
 const CONVERSION_FACTORS: Record<SpeedUnit, number> = {
   ms: 1,
   kmh: 3.6,
-  mph: 2.23694,
-  knots: 1.94384,
+  mph: 3.6 / 1.609344,
+  knots: 3.6 / 1.852,
 };
 
 export function convertSpeed(speedMs: number, unit: SpeedUnit): number {
