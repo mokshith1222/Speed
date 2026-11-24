@@ -1,16 +1,85 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'How Accurate Is GPS Speed? — Factors & Error Ranges',
+  title: 'How Accurate Is GPS Speed?',
   description:
-    'Detailed guide on GPS speed accuracy. Understand typical error ranges, what affects accuracy, and how to get the best GPS speed readings.',
+    'Detailed technical guide on GPS speed accuracy factors. Understand receiver hardware, satellite geometry, signal blockage, and Doppler velocity calculations.',
   alternates: { canonical: '/guides/how-accurate-is-gps-speed' },
+  openGraph: {
+    title: 'How Accurate Is GPS Speed?',
+    description:
+      'Detailed technical guide on GPS speed accuracy factors. Understand receiver hardware, satellite geometry, signal blockage, and Doppler velocity calculations.',
+    url: '/guides/how-accurate-is-gps-speed',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'How Accurate Is GPS Speed?',
+    description:
+      'Detailed technical guide on GPS speed accuracy factors. Understand receiver hardware, satellite geometry, signal blockage, and Doppler velocity calculations.',
+  },
 };
 
-export default function Page() {
+export default function HowAccurateIsGpsSpeedPage() {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'How Accurate Is GPS Speed? Key Factors & Environmental Influences',
+    description:
+      'Detailed technical guide on GPS speed accuracy factors. Understand receiver hardware, satellite geometry, signal blockage, and Doppler velocity calculations.',
+    url: `${baseUrl}/guides/how-accurate-is-gps-speed`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/guides/how-accurate-is-gps-speed`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Speedometer',
+      url: baseUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'GPS Accuracy',
+        item: `${baseUrl}/guides/how-accurate-is-gps-speed`,
+      },
+    ],
+  };
+
   return (
     <article className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-main max-w-3xl">
         <nav className="text-xs mb-6" aria-label="Breadcrumb" style={{ color: 'var(--text-tertiary)' }}>
           <Link href="/" className="no-underline hover:underline" style={{ color: 'var(--text-tertiary)' }}>

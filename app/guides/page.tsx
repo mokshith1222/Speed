@@ -1,10 +1,27 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Guides — Speed, GPS & Speedometer Articles',
-  description: 'Learn about GPS speed measurement, speedometer accuracy, speed units, and more. Original educational guides from Speedometer.',
+  title: 'Speed & GPS Guides — Velocity Articles',
+  description:
+    'Explore educational guides on GPS speed measurement, speedometer accuracy laws, velocity unit conversion, and navigation history.',
   alternates: { canonical: '/guides' },
+  openGraph: {
+    title: 'Speed & GPS Guides — Velocity Articles',
+    description:
+      'Explore educational guides on GPS speed measurement, speedometer accuracy laws, velocity unit conversion, and navigation history.',
+    url: '/guides',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Speed & GPS Guides — Velocity Articles',
+    description:
+      'Educational guides on GPS speed measurement, speedometer accuracy, and speed unit conversions.',
+  },
 };
 
 const GUIDES = [
@@ -60,45 +77,84 @@ const GUIDES = [
 
 export default function GuidesPage() {
   const categories = [...new Set(GUIDES.map((g) => g.category))];
+  const baseUrl = getBaseUrl();
+
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Speed & GPS Educational Guides',
+    url: `${baseUrl}/guides`,
+    description:
+      'Educational guides on GPS speed tracking, vehicle speedometer accuracy, and speed unit conversion.',
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+    ],
+  };
 
   return (
-    <section className="py-12 md:py-16">
-      <div className="container-main">
-        <div className="max-w-3xl mb-12">
-          <p className="text-sm font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--brand-primary)' }}>
-            Learn
-          </p>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
-            Speed & GPS Guides
-          </h1>
-          <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
-            Original articles explaining how GPS speed works, speedometer accuracy, speed unit conversions, and more.
-          </p>
-        </div>
-
-        {categories.map((category) => (
-          <div key={category} className="mb-10">
-            <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{category}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {GUIDES.filter((g) => g.category === category).map((guide) => (
-                <Link
-                  key={guide.slug}
-                  href={`/guides/${guide.slug}`}
-                  className="rounded-xl p-5 no-underline transition-colors"
-                  style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-primary)' }}
-                >
-                  <h3 className="text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                    {guide.title}
-                  </h3>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    {guide.excerpt}
-                  </p>
-                </Link>
-              ))}
-            </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <section className="py-12 md:py-16">
+        <div className="container-main">
+          <div className="max-w-3xl mb-12">
+            <p className="text-sm font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--brand-primary)' }}>
+              Learn
+            </p>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
+              Speed & GPS Guides
+            </h1>
+            <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
+              Original articles explaining how GPS speed works, speedometer accuracy, speed unit conversions, and more.
+            </p>
           </div>
-        ))}
-      </div>
-    </section>
+
+          {categories.map((category) => (
+            <div key={category} className="mb-10">
+              <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{category}</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {GUIDES.filter((g) => g.category === category).map((guide) => (
+                  <Link
+                    key={guide.slug}
+                    href={`/guides/${guide.slug}`}
+                    className="rounded-xl p-5 no-underline transition-colors"
+                    style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-primary)' }}
+                  >
+                    <h3 className="text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                      {guide.title}
+                    </h3>
+                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      {guide.excerpt}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

@@ -1,16 +1,85 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'How to Use Your Phone as a Speedometer',
   description:
-    'Step-by-step guide to using your smartphone as a GPS speedometer. Learn the best apps, browser tools, and tips for accurate phone-based speed tracking.',
+    'Step-by-step guide to using your smartphone as a GPS speedometer. Setup tips, screen wake lock usage, mounting recommendations, and battery optimization.',
   alternates: { canonical: '/guides/phone-as-speedometer' },
+  openGraph: {
+    title: 'How to Use Your Phone as a Speedometer',
+    description:
+      'Step-by-step guide to using your smartphone as a GPS speedometer. Setup tips, screen wake lock usage, mounting recommendations, and battery optimization.',
+    url: '/guides/phone-as-speedometer',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'How to Use Your Phone as a Speedometer',
+    description:
+      'Step-by-step guide to using your smartphone as a GPS speedometer. Setup tips, screen wake lock usage, mounting recommendations, and battery optimization.',
+  },
 };
 
-export default function Page() {
+export default function PhoneAsSpeedometerPage() {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'How to Use Your Smartphone as a GPS Speedometer',
+    description:
+      'Step-by-step guide to using your smartphone as a GPS speedometer. Setup tips, screen wake lock usage, mounting recommendations, and battery optimization.',
+    url: `${baseUrl}/guides/phone-as-speedometer`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/guides/phone-as-speedometer`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Speedometer',
+      url: baseUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Phone as Speedometer',
+        item: `${baseUrl}/guides/phone-as-speedometer`,
+      },
+    ],
+  };
+
   return (
     <article className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-main max-w-3xl">
         <nav className="text-xs mb-6" aria-label="Breadcrumb" style={{ color: 'var(--text-tertiary)' }}>
           <Link href="/" className="no-underline hover:underline" style={{ color: 'var(--text-tertiary)' }}>

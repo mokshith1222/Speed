@@ -2,19 +2,81 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import SpeedConverterWidget from '@/components/SpeedConverterWidget';
 import { CONVERSION_PAIRS } from '@/lib/conversion-engine';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Speed Converter — Convert km/h, mph, knots, m/s',
+  title: 'Speed Converter — km/h, mph, Knots & m/s',
   description:
-    'Free online speed converter. Instantly convert between kilometers per hour (km/h), miles per hour (mph), knots, and meters per second (m/s). Accurate, fast, and easy to use.',
+    'Free online speed converter. Instantly convert between km/h, mph, knots, and m/s with verified formulas, conversion tables, and step-by-step calculations.',
   alternates: {
     canonical: '/speed-converter',
+  },
+  openGraph: {
+    title: 'Speed Converter — km/h, mph, Knots & m/s',
+    description:
+      'Free online speed converter. Instantly convert between km/h, mph, knots, and m/s with verified formulas, conversion tables, and step-by-step calculations.',
+    url: '/speed-converter',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Speed Converter — km/h, mph, Knots & m/s',
+    description:
+      'Convert between km/h, mph, knots, and m/s instantly with verified calculation formulas and tables.',
   },
 };
 
 export default function SpeedConverterPage() {
+  const baseUrl = getBaseUrl();
+
+  const webAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Speed Converter',
+    url: `${baseUrl}/speed-converter`,
+    description:
+      'Free online speed converter to convert between km/h, mph, knots, and m/s.',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Speed Converter',
+        item: `${baseUrl}/speed-converter`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="py-8 md:py-12" aria-labelledby="converter-heading">
         <div className="container-main">
           <div className="text-center mb-8">

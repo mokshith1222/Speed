@@ -4,9 +4,9 @@ import Speedometer from '@/components/Speedometer';
 import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Real-Time GPS Speedometer Online — Free Live Speed Tracker',
+  title: 'Real-Time GPS Speedometer — Free Speed Tracker',
   description:
-    'Free online GPS speedometer to measure your real-time speed in km/h, mph, knots, and m/s directly in your browser. Accurate satellite tracking, analog & digital display.',
+    'Free online GPS speedometer to measure your real-time speed in km/h, mph, knots, and m/s. Browser-based satellite tracking with analog and digital displays.',
   keywords: [
     'GPS speedometer',
     'online speedometer',
@@ -22,10 +22,19 @@ export const metadata: Metadata = {
     canonical: '/speedometer',
   },
   openGraph: {
-    title: 'Real-Time GPS Speedometer Online — Free Live Speed Tracker',
+    title: 'Real-Time GPS Speedometer — Free Speed Tracker',
     description:
       'Free online GPS speedometer for cars, bikes, boats, and running. Measure your real-time speed directly in your browser.',
     url: '/speedometer',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Real-Time GPS Speedometer — Free Speed Tracker',
+    description:
+      'Measure your real-time speed in km/h, mph, knots, and m/s directly in your browser with satellite GPS tracking.',
   },
 };
 
@@ -59,7 +68,7 @@ export default function SpeedometerPage() {
         name: 'How accurate is the GPS speedometer?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'In open outdoor areas with clear satellite reception, GPS speed readings are typically accurate within ±0.5 to ±1.5 km/h. Accuracy depends on satellite line-of-sight and device hardware.',
+          text: 'GPS speed accuracy varies with device hardware, satellite visibility, atmospheric conditions, and movement. Doppler-derived velocity under clear open skies provides responsive speed estimates, though environmental obstacles can introduce variations.',
         },
       },
       {
@@ -75,7 +84,7 @@ export default function SpeedometerPage() {
         name: 'Is GPS speed more accurate than my car speedometer?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Generally yes. Vehicle speedometers determine speed from wheel rotation and are legally required by UN ECE Regulation 39 to never read lower than actual speed, usually reading 2-5% higher. GPS measures true ground movement.',
+          text: 'Generally yes during steady motion. Vehicle speedometers calculate velocity from wheel rotation and are legally governed by standards such as UN ECE Regulation 39, which prohibits under-reporting and permits a specified over-reading margin. GPS measures true ground movement.',
         },
       },
       {
@@ -89,6 +98,25 @@ export default function SpeedometerPage() {
     ],
   };
 
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'GPS Speedometer',
+        item: `${baseUrl}/speedometer`,
+      },
+    ],
+  };
+
   return (
     <>
       <script
@@ -98,6 +126,10 @@ export default function SpeedometerPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
 
       {/* Speedometer Tool */}

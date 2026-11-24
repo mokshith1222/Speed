@@ -1,16 +1,85 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'GPS Speed vs Car Speedometer — Which Is More Accurate?',
+  title: 'GPS Speed vs Car Speedometer',
   description:
-    'Understand why GPS speed and your car speedometer show different values. Learn which is more accurate and why manufacturers calibrate speedometers to read high.',
+    'Understand why GPS speed and car speedometers differ. Learn how UN ECE Regulation 39 governs dashboard calibration and why tire wear alters speedometer readings.',
   alternates: { canonical: '/guides/gps-speed-vs-car-speedometer' },
+  openGraph: {
+    title: 'GPS Speed vs Car Speedometer',
+    description:
+      'Understand why GPS speed and car speedometers differ. Learn how UN ECE Regulation 39 governs dashboard calibration and why tire wear alters speedometer readings.',
+    url: '/guides/gps-speed-vs-car-speedometer',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'GPS Speed vs Car Speedometer',
+    description:
+      'Understand why GPS speed and car speedometers differ. Learn how UN ECE Regulation 39 governs dashboard calibration and why tire wear alters speedometer readings.',
+  },
 };
 
 export default function GpsVsCarPage() {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'GPS Speed vs Car Speedometer — Which Is More Accurate?',
+    description:
+      'Understand why GPS speed and car speedometers differ. Learn how UN ECE Regulation 39 governs dashboard calibration and why tire wear alters speedometer readings.',
+    url: `${baseUrl}/guides/gps-speed-vs-car-speedometer`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/guides/gps-speed-vs-car-speedometer`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Speedometer',
+      url: baseUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'GPS vs Car Speedometer',
+        item: `${baseUrl}/guides/gps-speed-vs-car-speedometer`,
+      },
+    ],
+  };
+
   return (
     <article className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-main max-w-3xl">
         <nav className="text-xs mb-6" aria-label="Breadcrumb" style={{ color: 'var(--text-tertiary)' }}>
           <Link href="/" className="no-underline hover:underline" style={{ color: 'var(--text-tertiary)' }}>

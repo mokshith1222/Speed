@@ -1,13 +1,29 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Speedometer from '@/components/Speedometer';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'Speedometer — Free Online GPS Speed Tracker & Velocity Tools',
   description:
-    'Free online GPS speedometer and velocity suite. Measure your real-time speed directly in your browser, convert km/h, mph, knots, and m/s, and explore speed guides.',
+    'Free online GPS speedometer and velocity suite. Measure your live speed in your browser, convert km/h, mph, knots, and m/s, and explore technical speed guides.',
   alternates: {
     canonical: '/',
+  },
+  openGraph: {
+    title: 'Speedometer — Free Online GPS Speed Tracker & Velocity Tools',
+    description:
+      'Free online GPS speedometer and velocity suite. Measure your live speed in your browser, convert km/h, mph, knots, and m/s, and explore technical speed guides.',
+    url: '/',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Speedometer — Free Online GPS Speed Tracker & Velocity Tools',
+    description:
+      'Free online GPS speedometer and velocity suite. Measure your live speed in your browser, convert km/h, mph, knots, and m/s, and explore technical speed guides.',
   },
 };
 
@@ -82,14 +98,40 @@ const TOOLS = [
 
 const GUIDES = [
   { href: '/guides/how-gps-speed-works', title: 'How GPS Speed Works', description: 'Understand how satellites and Doppler frequency shift compute ground velocity.' },
-  { href: '/guides/gps-speed-vs-car-speedometer', title: 'GPS vs Car Speedometer', description: 'Why car dashboards read 2–5% higher than your actual speed.' },
+  { href: '/guides/gps-speed-vs-car-speedometer', title: 'GPS vs Car Speedometer', description: 'Why vehicle dashboards indicate higher than satellite ground speed under UN ECE Regulation 39.' },
   { href: '/guides/kmh-vs-mph', title: 'km/h vs mph Explained', description: 'Global speed limits and quick mental conversion rules.' },
   { href: '/guides/what-are-knots', title: 'What Are Knots?', description: 'The history and navigational mathematics behind nautical miles per hour.' },
 ];
 
 export default function HomePage() {
+  const baseUrl = getBaseUrl();
+
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Speedometer',
+    url: baseUrl,
+    description:
+      'Free online GPS speedometer, velocity conversion suite, and educational guides.',
+  };
+
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Speedometer',
+    url: baseUrl,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
       {/* Hero Section */}
       <section
         className="relative overflow-hidden"

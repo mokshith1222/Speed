@@ -1,15 +1,85 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'How GPS Speed Measurement Works — Complete Guide',
-  description: 'Learn how GPS speedometers calculate your speed using satellite signals. Understand the technology, accuracy factors, and limitations of GPS-based speed measurement.',
+  title: 'How GPS Speed Measurement Works',
+  description:
+    'Learn how GPS speedometers calculate speed using satellite signals and Doppler shift. Understand satellite trilateration, Doppler velocity, and limitations.',
   alternates: { canonical: '/guides/how-gps-speed-works' },
+  openGraph: {
+    title: 'How GPS Speed Measurement Works',
+    description:
+      'Learn how GPS speedometers calculate speed using satellite signals and Doppler shift. Understand satellite trilateration, Doppler velocity, and limitations.',
+    url: '/guides/how-gps-speed-works',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'How GPS Speed Measurement Works',
+    description:
+      'Learn how GPS speedometers calculate speed using satellite signals and Doppler shift. Understand satellite trilateration, Doppler velocity, and limitations.',
+  },
 };
 
 export default function HowGpsSpeedWorksPage() {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'How GPS Speed Measurement Works',
+    description:
+      'Learn how GPS speedometers calculate speed using satellite signals and Doppler shift. Understand satellite trilateration, Doppler velocity, and limitations.',
+    url: `${baseUrl}/guides/how-gps-speed-works`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/guides/how-gps-speed-works`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Speedometer',
+      url: baseUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'How GPS Speed Works',
+        item: `${baseUrl}/guides/how-gps-speed-works`,
+      },
+    ],
+  };
+
   return (
     <article className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-main max-w-3xl">
         {/* Breadcrumb */}
         <nav className="text-xs mb-6" aria-label="Breadcrumb" style={{ color: 'var(--text-tertiary)' }}>

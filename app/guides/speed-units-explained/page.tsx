@@ -1,16 +1,85 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Speed Units Explained — km/h, mph, m/s, knots, Mach',
+  title: 'Speed Units Explained: km/h, mph, m/s, Knots',
   description:
-    'Comprehensive guide explaining all major speed units, their formulas, historical context, and conversion factors.',
+    'Comprehensive guide explaining all major speed units (km/h, mph, m/s, knots, Mach), their physical formulas, historical origins, and conversion factors.',
   alternates: { canonical: '/guides/speed-units-explained' },
+  openGraph: {
+    title: 'Speed Units Explained: km/h, mph, m/s, Knots',
+    description:
+      'Comprehensive guide explaining all major speed units (km/h, mph, m/s, knots, Mach), their physical formulas, historical origins, and conversion factors.',
+    url: '/guides/speed-units-explained',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Speed Units Explained: km/h, mph, m/s, Knots',
+    description:
+      'Comprehensive guide explaining all major speed units (km/h, mph, m/s, knots, Mach), their physical formulas, historical origins, and conversion factors.',
+  },
 };
 
-export default function Page() {
+export default function SpeedUnitsExplainedPage() {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'Speed Units Explained: km/h, mph, m/s, Knots & Mach',
+    description:
+      'Comprehensive guide explaining all major speed units (km/h, mph, m/s, knots, Mach), their physical formulas, historical origins, and conversion factors.',
+    url: `${baseUrl}/guides/speed-units-explained`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/guides/speed-units-explained`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Speedometer',
+      url: baseUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Speed Units Explained',
+        item: `${baseUrl}/guides/speed-units-explained`,
+      },
+    ],
+  };
+
   return (
     <article className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-main max-w-3xl">
         <nav className="text-xs mb-6" aria-label="Breadcrumb" style={{ color: 'var(--text-tertiary)' }}>
           <Link href="/" className="no-underline hover:underline" style={{ color: 'var(--text-tertiary)' }}>

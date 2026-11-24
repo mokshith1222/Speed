@@ -1,10 +1,27 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'FAQ — Frequently Asked Questions',
-  description: 'Answers to common questions about GPS speedometers, speed accuracy, speed conversion, and how to use our tools.',
+  description:
+    'Find answers to frequently asked questions about GPS speedometers, satellite speed accuracy, unit conversions, browser privacy, and mobile usage.',
   alternates: { canonical: '/faq' },
+  openGraph: {
+    title: 'FAQ — Frequently Asked Questions',
+    description:
+      'Find answers to frequently asked questions about GPS speedometers, satellite speed accuracy, unit conversions, browser privacy, and mobile usage.',
+    url: '/faq',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FAQ — Frequently Asked Questions',
+    description:
+      'Frequently asked questions about GPS speedometers, satellite speed accuracy, unit conversions, and browser privacy.',
+  },
 };
 
 const FAQ_SECTIONS = [
@@ -40,8 +57,53 @@ const FAQ_SECTIONS = [
 ];
 
 export default function FAQPage() {
+  const baseUrl = getBaseUrl();
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_SECTIONS.flatMap((section) =>
+      section.items.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a,
+        },
+      }))
+    ),
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'FAQ',
+        item: `${baseUrl}/faq`,
+      },
+    ],
+  };
+
   return (
-    <section className="py-12 md:py-16">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <section className="py-12 md:py-16">
       <div className="container-main max-w-3xl">
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
           Frequently Asked Questions
@@ -89,5 +151,6 @@ export default function FAQPage() {
         </div>
       </div>
     </section>
+    </>
   );
 }

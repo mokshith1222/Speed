@@ -1,16 +1,85 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Speedometer Accuracy — Digital, Mechanical & GPS Compared',
+  title: 'Speedometer Accuracy: Mechanical vs GPS',
   description:
-    'Detailed analysis of vehicle speedometer accuracy laws, calibration margins, and how GPS compares with mechanical and OBD-II sensors.',
+    'Technical analysis of vehicle speedometer accuracy regulations, calibration margins under UN ECE Regulation 39, and how GPS compares with mechanical sensors.',
   alternates: { canonical: '/guides/speedometer-accuracy' },
+  openGraph: {
+    title: 'Speedometer Accuracy: Mechanical vs GPS',
+    description:
+      'Technical analysis of vehicle speedometer accuracy regulations, calibration margins under UN ECE Regulation 39, and how GPS compares with mechanical sensors.',
+    url: '/guides/speedometer-accuracy',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Speedometer Accuracy: Mechanical vs GPS',
+    description:
+      'Technical analysis of vehicle speedometer accuracy regulations, calibration margins under UN ECE Regulation 39, and how GPS compares with mechanical sensors.',
+  },
 };
 
-export default function Page() {
+export default function SpeedometerAccuracyPage() {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'Speedometer Accuracy: Mechanical, Electronic & GPS Compared',
+    description:
+      'Technical analysis of vehicle speedometer accuracy regulations, calibration margins under UN ECE Regulation 39, and how GPS compares with mechanical sensors.',
+    url: `${baseUrl}/guides/speedometer-accuracy`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/guides/speedometer-accuracy`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Speedometer',
+      url: baseUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Speedometer Accuracy',
+        item: `${baseUrl}/guides/speedometer-accuracy`,
+      },
+    ],
+  };
+
   return (
     <article className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-main max-w-3xl">
         <nav className="text-xs mb-6" aria-label="Breadcrumb" style={{ color: 'var(--text-tertiary)' }}>
           <Link href="/" className="no-underline hover:underline" style={{ color: 'var(--text-tertiary)' }}>

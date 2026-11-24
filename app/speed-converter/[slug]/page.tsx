@@ -10,6 +10,7 @@ import {
   generateConversionTable,
   getCommonValues,
 } from '@/lib/conversion-engine';
+import { getBaseUrl } from '@/lib/site-config';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -32,12 +33,30 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const fromLabel = UNITS[pair.from].label;
   const toLabel = UNITS[pair.to].label;
+  const fromFullName = UNITS[pair.from].fullName;
+  const toFullName = UNITS[pair.to].fullName;
+
+  const title = `${pair.title} Converter — ${fromLabel} to ${toLabel}`;
+  const description = `Convert ${fromFullName} to ${toFullName} (${fromLabel} to ${toLabel}). Free online calculator with verified conversion formulas and reference table.`;
 
   return {
-    title: `${pair.title} Converter — Convert ${fromLabel} to ${toLabel}`,
-    description: `Convert ${UNITS[pair.from].fullName} to ${UNITS[pair.to].fullName}. Free online ${fromLabel} to ${toLabel} calculator with conversion table and formula.`,
+    title,
+    description,
     alternates: {
       canonical: `/speed-converter/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/speed-converter/${slug}`,
+      siteName: 'Speedometer',
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
     },
   };
 }
@@ -157,6 +176,7 @@ export default async function ConversionPage({ params }: PageProps) {
   const pair = getPairBySlug(slug);
   if (!pair) notFound();
 
+  const baseUrl = getBaseUrl();
   const fromUnit = UNITS[pair.from];
   const toUnit = UNITS[pair.to];
   const formula = getFormula(pair.from, pair.to);
@@ -167,8 +187,57 @@ export default async function ConversionPage({ params }: PageProps) {
   // Other conversion pairs for internal linking
   const otherPairs = CONVERSION_PAIRS.filter((p) => p.slug !== slug);
 
+  const webAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: `${pair.title} Converter`,
+    url: `${baseUrl}/speed-converter/${slug}`,
+    description: `Convert ${fromUnit.fullName} (${fromUnit.label}) to ${toUnit.fullName} (${toUnit.label}) with exact formulas.`,
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Speed Converter',
+        item: `${baseUrl}/speed-converter`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: pair.title,
+        item: `${baseUrl}/speed-converter/${slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="py-8 md:py-12" aria-labelledby="converter-heading">
         <div className="container-main">
           {/* Breadcrumb */}

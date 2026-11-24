@@ -1,16 +1,85 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'km/h vs mph — Understanding Speed Units Across the World',
+  title: 'km/h vs mph — Speed Units Explained',
   description:
-    'Learn the differences between kilometers per hour (km/h) and miles per hour (mph), historical adoption, and how to convert between them easily.',
+    'Learn the differences between km/h and mph, historical adoption, global road rules, and fast Fibonacci mental calculation tricks.',
   alternates: { canonical: '/guides/kmh-vs-mph' },
+  openGraph: {
+    title: 'km/h vs mph — Speed Units Explained',
+    description:
+      'Learn the differences between km/h and mph, historical adoption, global road rules, and fast Fibonacci mental calculation tricks.',
+    url: '/guides/kmh-vs-mph',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'km/h vs mph — Speed Units Explained',
+    description:
+      'Learn the differences between km/h and mph, historical adoption, global road rules, and fast Fibonacci mental calculation tricks.',
+  },
 };
 
-export default function Page() {
+export default function KmhVsMphPage() {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'km/h vs. mph: Differences, Global Adoption & Mental Conversion Tricks',
+    description:
+      'Learn the differences between km/h and mph, historical adoption, global road rules, and fast Fibonacci mental calculation tricks.',
+    url: `${baseUrl}/guides/kmh-vs-mph`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/guides/kmh-vs-mph`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Speedometer',
+      url: baseUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'km/h vs mph',
+        item: `${baseUrl}/guides/kmh-vs-mph`,
+      },
+    ],
+  };
+
   return (
     <article className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-main max-w-3xl">
         <nav className="text-xs mb-6" aria-label="Breadcrumb" style={{ color: 'var(--text-tertiary)' }}>
           <Link href="/" className="no-underline hover:underline" style={{ color: 'var(--text-tertiary)' }}>

@@ -1,16 +1,85 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'What Are Knots? Nautical Speed Unit Explained',
+  title: 'What Are Knots? Nautical Speed Explained',
   description:
-    'Learn what a knot is, why maritime and aviation industries measure speed in knots, and how to convert knots to km/h and mph.',
+    'Learn what a knot is, why maritime navigation and aviation measure velocity in knots, and how to convert knots to km/h and mph.',
   alternates: { canonical: '/guides/what-are-knots' },
+  openGraph: {
+    title: 'What Are Knots? Nautical Speed Explained',
+    description:
+      'Learn what a knot is, why maritime navigation and aviation measure velocity in knots, and how to convert knots to km/h and mph.',
+    url: '/guides/what-are-knots',
+    siteName: 'Speedometer',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'What Are Knots? Nautical Speed Explained',
+    description:
+      'Learn what a knot is, why maritime navigation and aviation measure velocity in knots, and how to convert knots to km/h and mph.',
+  },
 };
 
-export default function Page() {
+export default function WhatAreKnotsPage() {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'What Are Knots? The History, Mathematics & Navigation of Nautical Speed',
+    description:
+      'Learn what a knot is, why maritime navigation and aviation measure velocity in knots, and how to convert knots to km/h and mph.',
+    url: `${baseUrl}/guides/what-are-knots`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/guides/what-are-knots`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Speedometer',
+      url: baseUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${baseUrl}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'What Are Knots',
+        item: `${baseUrl}/guides/what-are-knots`,
+      },
+    ],
+  };
+
   return (
     <article className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-main max-w-3xl">
         <nav className="text-xs mb-6" aria-label="Breadcrumb" style={{ color: 'var(--text-tertiary)' }}>
           <Link href="/" className="no-underline hover:underline" style={{ color: 'var(--text-tertiary)' }}>

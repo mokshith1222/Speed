@@ -52,6 +52,7 @@ export const metadata: Metadata = {
     title: 'Speedometer — Free Online GPS Speed Tracker & Tools',
     description:
       'Free online GPS speedometer to measure your real-time speed in km/h, mph, knots, and m/s. No download required.',
+    url: '/',
   },
   twitter: {
     card: 'summary_large_image',
